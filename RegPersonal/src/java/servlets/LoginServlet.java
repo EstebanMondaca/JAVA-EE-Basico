@@ -59,7 +59,7 @@ public class LoginServlet extends HttpServlet {
                 out.println("<a href=\"incluir.jsp\">Incluir</a> <br> ");
                 out.println("<a href=\"modificar.jsp\">Modificar</a> <br>");
                 out.println("<a href=\"eliminar.jsp\">Eliminar</a> <br>");
-                out.println("<a href=\"listar.jsp\">Listar</a> <br>");
+                out.println("<a href=\"AdminDBServlet?prm=listar\">Listar</a> <br>");
                 out.println("<a href=\"index.jsp\">Regresar</a> <br>");
             }
             
