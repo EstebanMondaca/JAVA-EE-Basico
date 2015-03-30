@@ -6,6 +6,8 @@
 
 package servlets;
 
+import application.bean.PersonalBean;
+import application.dao.DaoPersonal;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -21,6 +23,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AdminDBServlet", urlPatterns = {"/AdminDBServlet"})
 public class AdminDBServlet extends HttpServlet {
 
+    private DaoPersonal dao;
+    
+    public void init(){
+        dao = new DaoPersonal();
+    }
   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -29,13 +36,13 @@ public class AdminDBServlet extends HttpServlet {
       
             String opcion = request.getParameter("prm");
             if (opcion.equalsIgnoreCase("insertar")){
-                insertarRegistro(out);
+                insertarRegistro(request , out);
             } else if(opcion.equalsIgnoreCase("modificar")){
-                modificarRegistro(out);
+                modificarRegistro(request, out);
             } else if(opcion.equalsIgnoreCase("eliminar")){
-                eliminarRegistro(out);
+                eliminarRegistro(request, out);
             } else if (opcion.equalsIgnoreCase("listar")){
-                listarRegistro(out);
+                listarRegistro(request, out);
             }
             
         }
@@ -80,20 +87,110 @@ public class AdminDBServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void insertarRegistro(PrintWriter out) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void insertarRegistro(HttpServletRequest request, PrintWriter out) {
+        int codigo = Integer.parseInt(request.getParameter("txtCodigo"));
+        String nombre = request.getParameter("txtNombre");
+        String departamento = request.getParameter("txtDepartamento");
+        
+        PersonalBean personal = new PersonalBean();
+        
+        personal.setCodigo(codigo);
+        personal.setNombre(nombre);
+        personal.setDepartamento(departamento);
+        
+        boolean Ok = dao.Insertar(personal);
+        
+                    out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Registro de Personal</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            if (Ok){
+                out.println("<h1> Registro incluido con éxito!!! </h1>");
+                
+            }else{
+              out.println("<h1> Error al incluido el registro!!! </h1>");
+            }
+            
+            out.println("<a href=\"incluir.jsp\">Incluir</a> <br> ");
+            out.println("<a href=\"modificar.jsp\">Modificar</a> <br>");
+            out.println("<a href=\"eliminar.jsp\">Eliminar</a> <br>");
+            out.println("<a href=\"AdminDBServlet?prm=listar\">Listar</a> <br>");
+            out.println("<a href=\"index.jsp\">Regresar</a> <br>");
+            
+            out.println("</body>");
+            out.println("</html>");
     }
 
-    private void modificarRegistro(PrintWriter out) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void modificarRegistro(HttpServletRequest request, PrintWriter out) {
+        int codigo = Integer.parseInt(request.getParameter("txtCodigo"));
+        String nombre = request.getParameter("txtNombre");
+        String departamento = request.getParameter("txtDepartamento");
+        
+        PersonalBean personal = new PersonalBean();
+        
+        personal.setCodigo(codigo);
+        personal.setNombre(nombre);
+        personal.setDepartamento(departamento);
+        
+        boolean Ok = dao.Modificar(personal);
+        
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Registro de Personal</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            if (Ok){
+                out.println("<h1> Registro modificado con éxito!!! </h1>");
+                
+            }else{
+              out.println("<h1> Error al modificar el registro!!! </h1>");
+            }
+            
+            out.println("<a href=\"incluir.jsp\">Incluir</a> <br> ");
+            out.println("<a href=\"modificar.jsp\">Modificar</a> <br>");
+            out.println("<a href=\"eliminar.jsp\">Eliminar</a> <br>");
+            out.println("<a href=\"AdminDBServlet?prm=listar\">Listar</a> <br>");
+            out.println("<a href=\"index.jsp\">Regresar</a> <br>");
+            
+            out.println("</body>");
+            out.println("</html>");
     }
 
-    private void eliminarRegistro(PrintWriter out) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void eliminarRegistro(HttpServletRequest request, PrintWriter out) {
+        
+        int codigo = Integer.parseInt(request.getParameter("txtCodigo"));
+        
+        boolean Ok = dao.Eliminar(codigo);
+        
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Registro de Personal</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            if (Ok){
+                out.println("<h1> Registro eliminado con éxito!!! </h1>");
+                
+            }else{
+              out.println("<h1> Error al eliminar el registro!!! </h1>");
+            }
+            
+            out.println("<a href=\"incluir.jsp\">Incluir</a> <br> ");
+            out.println("<a href=\"modificar.jsp\">Modificar</a> <br>");
+            out.println("<a href=\"eliminar.jsp\">Eliminar</a> <br>");
+            out.println("<a href=\"AdminDBServlet?prm=listar\">Listar</a> <br>");
+            out.println("<a href=\"index.jsp\">Regresar</a> <br>");
+            
+            out.println("</body>");
+            out.println("</html>");
+        
     }
 
-    private void listarRegistro(PrintWriter out) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void listarRegistro(HttpServletRequest request, PrintWriter out) {
+       
     }
 
 }
