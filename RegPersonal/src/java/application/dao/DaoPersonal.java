@@ -28,7 +28,8 @@ public class DaoPersonal {
 
                 //Conexión con la Base de Datos...
                  
-                Connection con = DriverManager.getConnection(url, user, pass);
+                con = DriverManager.getConnection(url, user, pass);
+                
             } catch (SQLException ex) {
                     //Logger.getLogger(DaoPersonal.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println("Error: " + ex.getMessage());

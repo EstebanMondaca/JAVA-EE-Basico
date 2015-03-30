@@ -21,29 +21,23 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AdminDBServlet", urlPatterns = {"/AdminDBServlet"})
 public class AdminDBServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+  
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AdminDBServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AdminDBServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+      
+            String opcion = request.getParameter("prm");
+            if (opcion.equalsIgnoreCase("insertar")){
+                insertarRegistro(out);
+            } else if(opcion.equalsIgnoreCase("modificar")){
+                modificarRegistro(out);
+            } else if(opcion.equalsIgnoreCase("eliminar")){
+                eliminarRegistro(out);
+            } else if (opcion.equalsIgnoreCase("listar")){
+                listarRegistro(out);
+            }
+            
         }
     }
 
@@ -85,5 +79,21 @@ public class AdminDBServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void insertarRegistro(PrintWriter out) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void modificarRegistro(PrintWriter out) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void eliminarRegistro(PrintWriter out) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void listarRegistro(PrintWriter out) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
