@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,8 +23,8 @@ public class DaoPersonal {
         private PreparedStatement psmtModificar;
         private PreparedStatement psmtEliminar;
         private PreparedStatement psmtListar;
-        
         private PreparedStatement psmtRegistros;
+        
         private ResultSet rsRegistros;
         
         public DaoPersonal(){
@@ -40,21 +41,20 @@ public class DaoPersonal {
                  
                 con = DriverManager.getConnection(url, user, pass);
                 
-                psmtInsertar = con.prepareStatement("insert into PERSONAL values (?,?,?)");
+                psmtInsertar = con.prepareStatement("INSERT INTO PERSONAL values (?, ?, ?)");
                 psmtModificar = con.prepareStatement("update PERSONAL set NOMBRE = ?, " + 
                                 "DEPARTAMENTO = ?, where CODIGO = ?");
                 psmtEliminar = con.prepareStatement("delete from PERSONAL where CODIGO = ?");
                 psmtListar = con.prepareStatement("select * from PERSONAL where CODIGO = ?");
+                psmtRegistros = con.prepareStatement("select * from PERSONAL");
                 
                 rsRegistros = psmtRegistros.executeQuery();
                 
-            } catch (SQLException ex) {
+            } 
+            catch (ClassNotFoundException | SQLException ex) {
                     //Logger.getLogger(DaoPersonal.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println("Error: " + ex.getMessage());
-            } catch (ClassNotFoundException ex) {
-                    //Logger.getLogger(DaoPersonal.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.println("Error: " + ex.getMessage());
-            }
+            } 
             
         }
         
@@ -65,7 +65,7 @@ public class DaoPersonal {
                 psmtInsertar.setString(3, personal.getDepartamento());
                 psmtInsertar.executeUpdate();
                 
-                rsRegistros = psmtRegistros.executeQuery();
+                //rsRegistros = psmtRegistros.executeQuery();
                 return true;
                 
             } catch (SQLException e) {
@@ -83,7 +83,7 @@ public class DaoPersonal {
                 psmtModificar.setString(3, personal.getDepartamento());
                 psmtModificar.executeUpdate();
                 
-                rsRegistros = psmtRegistros.executeQuery();
+                //rsRegistros = psmtRegistros.executeQuery();
                 return true;
                 
             } catch (SQLException e) {
@@ -106,7 +106,34 @@ public class DaoPersonal {
             }
         }
         
-        
+        public ArrayList listar(){
+            try {
+                ArrayList listadoRetorno = new ArrayList();
+                
+                while(rsRegistros.next()){
+                    
+                    PersonalBean personal = new PersonalBean();
+                    
+                    //recuperar los datos ...
+                    
+                    personal.setCodigo(rsRegistros.getInt("CODIGO"));
+                    personal.setNombre(rsRegistros.getString("NOMBRE"));
+                    personal.setDepartamento(rsRegistros.getString("DEPARTAMENTO"));
+                    
+                    listadoRetorno.add(personal);
+                    
+                }
+                
+                return listadoRetorno;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DaoPersonal.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+                
+            
+            
+        }
         
 }
 

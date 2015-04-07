@@ -13,7 +13,7 @@
 
 <body>
 <form method="post" action="/RegPersonal/AdminDBServlet?prm=eliminar">
-  <h1> Incluir Personal </h1>
+  <h1> Eliminar Personal </h1>
     
   <p>
     <label>Codigo:</label>

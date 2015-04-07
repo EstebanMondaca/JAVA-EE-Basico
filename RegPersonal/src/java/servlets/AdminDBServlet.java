@@ -10,6 +10,7 @@ import application.bean.PersonalBean;
 import application.dao.DaoPersonal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +26,7 @@ public class AdminDBServlet extends HttpServlet {
 
     private DaoPersonal dao;
     
+    @Override
     public void init(){
         dao = new DaoPersonal();
     }
@@ -32,19 +34,23 @@ public class AdminDBServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = response.getWriter();
+        try {
       
-            String opcion = request.getParameter("prm");
-            if (opcion.equalsIgnoreCase("insertar")){
+            String prm = request.getParameter("prm");
+            
+            if (prm.equalsIgnoreCase("incluir")){
                 insertarRegistro(request , out);
-            } else if(opcion.equalsIgnoreCase("modificar")){
+            } else if(prm.equalsIgnoreCase("modificar")){
                 modificarRegistro(request, out);
-            } else if(opcion.equalsIgnoreCase("eliminar")){
+            } else if(prm.equalsIgnoreCase("eliminar")){
                 eliminarRegistro(request, out);
-            } else if (opcion.equalsIgnoreCase("listar")){
+            } else if (prm.equalsIgnoreCase("listar")){
                 listarRegistro(request, out);
             }
             
+        } finally{
+            out.close();
         }
     }
 
@@ -100,7 +106,7 @@ public class AdminDBServlet extends HttpServlet {
         
         boolean Ok = dao.Insertar(personal);
         
-                    out.println("<!DOCTYPE html>");
+            
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Registro de Personal</title>");            
@@ -108,11 +114,9 @@ public class AdminDBServlet extends HttpServlet {
             out.println("<body>");
             if (Ok){
                 out.println("<h1> Registro incluido con éxito!!! </h1>");
-                
             }else{
               out.println("<h1> Error al incluido el registro!!! </h1>");
             }
-            
             out.println("<a href=\"incluir.jsp\">Incluir</a> <br> ");
             out.println("<a href=\"modificar.jsp\">Modificar</a> <br>");
             out.println("<a href=\"eliminar.jsp\">Eliminar</a> <br>");
@@ -136,7 +140,7 @@ public class AdminDBServlet extends HttpServlet {
         
         boolean Ok = dao.Modificar(personal);
         
-            out.println("<!DOCTYPE html>");
+            
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Registro de Personal</title>");            
@@ -165,7 +169,7 @@ public class AdminDBServlet extends HttpServlet {
         
         boolean Ok = dao.Eliminar(codigo);
         
-            out.println("<!DOCTYPE html>");
+            
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Registro de Personal</title>");            
@@ -177,7 +181,7 @@ public class AdminDBServlet extends HttpServlet {
             }else{
               out.println("<h1> Error al eliminar el registro!!! </h1>");
             }
-            
+             
             out.println("<a href=\"incluir.jsp\">Incluir</a> <br> ");
             out.println("<a href=\"modificar.jsp\">Modificar</a> <br>");
             out.println("<a href=\"eliminar.jsp\">Eliminar</a> <br>");
@@ -190,7 +194,36 @@ public class AdminDBServlet extends HttpServlet {
     }
 
     private void listarRegistro(HttpServletRequest request, PrintWriter out) {
-       
+               
+        ArrayList registros = dao.listar();
+        
+            
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Registro de Personal</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            
+            for (int x = 0; x < registros.size(); x++) {
+                // Recuperar y Mostrar los datos ...
+                PersonalBean personal = (PersonalBean) registros.get(x);
+                
+                out.println(personal.getCodigo() + " - " + personal.getNombre() + 
+                            " - " + personal.getDepartamento() + "<HR>");
+                
+            }
+            
+            
+            out.println("<BR><BR><BR><HR>");
+            
+            out.println("<a href=\"incluir.jsp\">Incluir</a> <br>");
+            out.println("<a href=\"modificar.jsp\">Modificar</a> <br>");
+            out.println("<a href=\"eliminar.jsp\">Eliminar</a> <br>");
+            out.println("<a href=\"AdminDBServlet?prm=listar\">Listar</a> <br>");
+            out.println("<a href=\"index.jsp\">Regresar</a> <br>");
+            
+            out.println("</body>");
+            out.println("</html>");
     }
 
 }
