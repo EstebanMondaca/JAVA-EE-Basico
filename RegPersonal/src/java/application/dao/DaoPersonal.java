@@ -42,11 +42,10 @@ public class DaoPersonal {
                 con = DriverManager.getConnection(url, user, pass);
                 
                 psmtInsertar = con.prepareStatement("INSERT INTO PERSONAL values (?, ?, ?)");
-                psmtModificar = con.prepareStatement("update PERSONAL set NOMBRE = ?, " + 
-                                "DEPARTAMENTO = ?, where CODIGO = ?");
+                psmtModificar = con.prepareStatement("update PERSONAL set NOMBRE = ?, DEPARTAMENTO = ? where CODIGO = ?");
                 psmtEliminar = con.prepareStatement("delete from PERSONAL where CODIGO = ?");
                 psmtListar = con.prepareStatement("select * from PERSONAL where CODIGO = ?");
-                psmtRegistros = con.prepareStatement("select * from PERSONAL");
+                psmtRegistros = con.prepareStatement("select * from PERSONAL ");
                 
                 rsRegistros = psmtRegistros.executeQuery();
                 
@@ -64,8 +63,8 @@ public class DaoPersonal {
                 psmtInsertar.setString(2, personal.getNombre());
                 psmtInsertar.setString(3, personal.getDepartamento());
                 psmtInsertar.executeUpdate();
-                
-                //rsRegistros = psmtRegistros.executeQuery();
+                //rsRegistros = psmtInsertar.executeQuery();
+                //psmtRegistros.executeQuery();
                 return true;
                 
             } catch (SQLException e) {
@@ -82,7 +81,7 @@ public class DaoPersonal {
                 psmtModificar.setString(2, personal.getNombre());
                 psmtModificar.setString(3, personal.getDepartamento());
                 psmtModificar.executeUpdate();
-                
+                psmtRegistros.executeQuery();
                 //rsRegistros = psmtRegistros.executeQuery();
                 return true;
                 
@@ -96,7 +95,7 @@ public class DaoPersonal {
             try {
                 psmtEliminar.setInt(1, codigo);
             
-                //psmtEliminar.executeUpdate();
+                psmtEliminar.executeUpdate();
                 rsRegistros = psmtRegistros.executeQuery();
                 return true;
                 

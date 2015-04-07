@@ -1,7 +1,7 @@
-Tue Mar 31 11:47:10 GMT-04:00 2015 : Apache Derby Network Server - 10.10.1.3 - (1557168) started and ready to accept connections on port 1527
+Mon Apr 06 21:27:33 GMT-04:00 2015 : Apache Derby Network Server - 10.10.1.3 - (1557168) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Tue Mar 31 11:47:12 GMT-04:00 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): instance a816c00e-014c-7083-c688-ffffb0f5fc0f 
+Mon Apr 06 21:27:34 GMT-04:00 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): instance a816c00e-014c-917d-3263-ffffb0f5fc0f 
 on database directory C:\Practicas\JAVA EE Basico\Database\datos with class loader sun.misc.Launcher$AppClassLoader@144bcfa 
 Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_05/db/lib/derby.jar
 java.vendor=Oracle Corporation
